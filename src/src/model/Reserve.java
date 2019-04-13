@@ -11,7 +11,8 @@ public class Reserve {
     }
 
     private Reserve(){
-        reservePions=new ArrayList<>();
+        reservePions=new ArrayList<>(16);
+
         reservePions.add(new Pion(true,true,true,true));
         reservePions.add(new Pion(true,true,true,false));
         reservePions.add(new Pion(true,true,false,true));
