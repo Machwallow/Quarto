@@ -75,10 +75,12 @@ public class AccueilController {
         Locale.setDefault(Locale.FRANCE);
         bundle = ResourceBundle.getBundle("bundles.bundle", Locale.getDefault());
     }
+
     public static void changeBundle(Locale l){
         Locale.setDefault(l);
         bundle = ResourceBundle.getBundle("bundles.bundle", l);
     }
+
     public static ResourceBundle getBundle(){
         return bundle;
     }
