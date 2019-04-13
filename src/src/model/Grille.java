@@ -1,4 +1,4 @@
-package src.model;
+package model;
 
 public class Grille {
     private static Grille ourInstance = new Grille();
@@ -7,7 +7,6 @@ public class Grille {
     public static Grille getInstance() {
         return ourInstance;
     }
-
 
     private Grille() {
         grillePions = new Pion[4][4];
