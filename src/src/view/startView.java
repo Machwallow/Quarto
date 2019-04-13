@@ -14,12 +14,12 @@ public class startView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        ViewServices.setupBundle();
         stage1 = primaryStage;
         AnchorPane root = FXMLLoader.load(getClass().getResource("accueil.fxml"), ResourceBundle.getBundle("bundles.bundle", Locale.FRANCE));
         primaryStage.setTitle("Poly Quarto");
         primaryStage.setScene(new Scene(root,300, 300));
         primaryStage.setResizable(false);
+       // primaryStage.getIcons().add(new Image("ressources/logo.png"));
         primaryStage.show();
     }
 
