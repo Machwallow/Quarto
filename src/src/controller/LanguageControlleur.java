@@ -16,17 +16,18 @@ public class LanguageControlleur {
 
     @FXML
     public void initialize(){
-       // setupivFR();
-        //setupivUS();
+        setupivFR();
+        setupivUS();
         setupButtonBack();
     }
 
     private void setupivFR(){
         ivFR.setOnMouseClicked(event -> {
+            System.out.println((new File(".").getAbsolutePath()));
             AccueilController.changeBundle(Locale.FRANCE);
             System.out.println("language changed to fr_FR");
             try {
-                AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/accueil.fxml"));
+                AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/accueil.fxml"), AccueilController.getBundle());
                 mainPane.getChildren().setAll(pane);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -36,10 +37,11 @@ public class LanguageControlleur {
 
     private void setupivUS(){
         ivUS.setOnMouseClicked(event -> {
+            System.out.println((new File(".").getAbsolutePath()));
             AccueilController.changeBundle(Locale.FRANCE);
             System.out.println("language changed to en_US");
             try {
-                AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/accueil.fxml"));
+                AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/accueil.fxml"), AccueilController.getBundle());
                 mainPane.getChildren().setAll(pane);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -51,7 +53,7 @@ public class LanguageControlleur {
         buttonBack.setOnAction(event -> {
             try {
                 System.out.println((new File(".").getAbsolutePath()));
-                AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/accueil.fxml"));
+                AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/accueil.fxml"), AccueilController.getBundle());
                 mainPane.getChildren().setAll(pane);
             } catch (Exception e) {
                 e.printStackTrace();
