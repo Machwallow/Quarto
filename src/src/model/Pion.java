@@ -1,5 +1,6 @@
 package model;
 
+
 public class Pion {
     private boolean bleu;
     private boolean carre;
