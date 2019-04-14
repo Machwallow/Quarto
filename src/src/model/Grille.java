@@ -3,16 +3,10 @@ package model;
 import java.util.ArrayList;
 
 public class Grille {
-    private static Grille ourInstance = new Grille();
     private Pion[][] grillePions;
     private ArrayList<Pion> pionToTest = new ArrayList<>();
 
-
-    public static Grille getInstance() {
-        return ourInstance;
-    }
-
-    private Grille() {
+    public Grille() {
         grillePions = new Pion[4][4];
         fillGrille();
     }
@@ -48,7 +42,7 @@ public class Grille {
                 return testCarre(x, y);
             }
             case T: {
-                return testT(x,y);
+                //return testT(x,y);
             }
         }
 
@@ -105,11 +99,12 @@ public class Grille {
         if(x-1<0){
             // cas 2 puis cas 3 sur feuille de note
             if((y+1<4) && (y-1>-1)){
+                System.out.println(x + " " + y);
                 return ((testPions(grillePions[x][y],grillePions[x+1][y-1],grillePions[x+1][y],grillePions[x][y-1]))
                         ||
-                        (testPions(grillePions[x][y],grillePions[x+1][y+1],grillePions[x][y+1],grillePions[x-1][y])));
+                        (testPions(grillePions[x][y],grillePions[x+1][y+1],grillePions[x][y+1],grillePions[x+1][y])));
             } else if(y-1<0) // cas 3
-                return testPions(grillePions[x][y],grillePions[x+1][y+1],grillePions[x][y+1],grillePions[x-1][y]);
+                return testPions(grillePions[x][y],grillePions[x+1][y+1],grillePions[x][y+1],grillePions[x+1][y]);
             else //cas 2
                 return testPions(grillePions[x][y],grillePions[x+1][y-1],grillePions[x+1][y],grillePions[x][y-1]);
         }
@@ -127,7 +122,7 @@ public class Grille {
         //cas 3 puis cas 4
         else if(y-1<0){
             if((x+1<4) && (x-1>0)){
-                return ((testPions(grillePions[x][y],grillePions[x+1][y+1],grillePions[x][y+1],grillePions[x-1][y]))
+                return ((testPions(grillePions[x][y],grillePions[x+1][y+1],grillePions[x][y+1],grillePions[x+1][y]))
                         ||
                         (testPions(grillePions[x][y],grillePions[x-1][y+1],grillePions[x-1][y],grillePions[x][y+1])));
             }
@@ -145,7 +140,7 @@ public class Grille {
                     ||
                     (testPions(grillePions[x][y],grillePions[x+1][y-1],grillePions[x+1][y],grillePions[x][y-1])))
                     ||
-                    (testPions(grillePions[x][y],grillePions[x+1][y+1],grillePions[x][y+1],grillePions[x-1][y]))
+                    (testPions(grillePions[x][y],grillePions[x+1][y+1],grillePions[x][y+1],grillePions[x+1][y]))
                     ||
                     (testPions(grillePions[x][y],grillePions[x-1][y+1],grillePions[x-1][y],grillePions[x][y+1]));
         }
@@ -177,5 +172,30 @@ public class Grille {
 
 
         return(temp1||temp2||temp3);
+    }
+
+    public int[] checkIfMoveCanWin(NomForme nf){
+        Grille grilleIA=this;
+        ArrayList<Pion> reserveIA=Reserve.getInstance().getReservePions();
+        int[] position={-1,-1,-1};
+        for(int n=0;n<reserveIA.size();n++){
+            for(int i=0;i<4;i++){
+                for(int j=0;j<4;j++){
+                    if(!grilleIA.grillePions[i][j].isPlein()){
+                        grilleIA.grillePions[i][j]=reserveIA.get(n);
+                        System.out.println(i+" et "+j);
+                        if(grilleIA.checkVictory(nf,i,j)){
+                            position[0]=n;
+                            position[1]=i;
+                            position[2]=j;
+                            return position;
+                        }
+                        grilleIA.grillePions[i][j]=new Pion();
+                    }
+
+                }
+            }
+        }
+        return position;
     }
 }
