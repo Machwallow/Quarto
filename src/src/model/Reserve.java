@@ -1,4 +1,4 @@
-package src.model;
+package model;
 
 import java.util.ArrayList;
 
@@ -32,5 +32,20 @@ public class Reserve {
         reservePions.add(new Pion(false,false,true,false));
         reservePions.add(new Pion(false,false,false,true));
         reservePions.add(new Pion(false,false,false,false));
+    }
+
+    @Override
+    public String toString() {
+        String text="Pions reserve : \n\n";
+        for(int i=0;i<reservePions.size();i++){
+            text+="indice "+i+" : "+reservePions.get(i).getImageName()+"\n";
+        }
+        return text;
+    }
+
+    public Pion useReservePion(int n){
+        Pion toUse=reservePions.get(n);
+        reservePions.remove(n);
+        return toUse;
     }
 }
