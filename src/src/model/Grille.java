@@ -31,9 +31,9 @@ public class Grille {
        formeVic = 4 -> Carré
      */
     //TODO : debug this function, check how to handle empty cases
-    public boolean checkVictory(NomForme nomForme, int x, int y){
+    public boolean checkVictory(Forme forme, int x, int y){
 
-        switch(nomForme) {
+        switch(forme.getNomForme()) {
             //ligne colonne diag
             case LCD: {
                 return testLCD(x,y);
@@ -49,10 +49,10 @@ public class Grille {
         return false;
     }
 
-    public int addPionAt(Pion p, int x, int y){
+    public int addPionAt(Pion p, int x, int y, Forme forme){
         if(!grillePions[x][y].isPlein()){
             grillePions[x][y] = p;
-            if(checkVictory(NomForme.CARRE,x,y)){
+            if(checkVictory(forme,x,y)){
                 return 2; //si on a ajouté un pion et que c'est gagné
             }
         }
@@ -179,7 +179,7 @@ public class Grille {
     }
 
     //checkIfMoveCanWin retourne l'index n du pion gagnant dans reserve, a placer dans grille aux coord x,y si n!=-1
-    public int[] checkIfMoveCanWin(NomForme nf){
+    public int[] checkIfMoveCanWin(Forme forme){
         Grille grilleIA=this;
         ArrayList<Pion> reserveIA=Reserve.getInstance().getReservePions();
         int[] position={-1,-1,-1};
@@ -189,7 +189,7 @@ public class Grille {
                     if(!grilleIA.grillePions[i][j].isPlein()){
                         grilleIA.grillePions[i][j]=reserveIA.get(n);
                         System.out.println(i+" et "+j);
-                        if(grilleIA.checkVictory(nf,i,j)){
+                        if(grilleIA.checkVictory(forme,i,j)){
                             position[0]=n;
                             position[1]=i;
                             position[2]=j;

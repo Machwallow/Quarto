@@ -48,6 +48,10 @@ public class Reserve {
         reservePions.remove(n);
         return toUse;
     }
+    
+    public int indexOf(Pion p){
+        return reservePions.indexOf(p);
+    }
 
     public ArrayList<Pion> getReservePions() {
         return reservePions;
