@@ -26,7 +26,7 @@
             </rowConstraints>
             <children>
                 <Label fx:id="title" text="Poly Quarto" GridPane.columnIndex="1" style="-fx-font-size: 30; -fx-font-style: Italic" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                <Button fx:id="buttonLocal" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%play" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                <Button fx:id="buttonPlay" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%play" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                 <Button fx:id="buttonRules" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%rules" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
                 <Button fx:id="buttonLanguage" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%language" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
                 <Button fx:id="buttonQuit" prefHeight="25.0" prefWidth="202.0" text="%quit" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
