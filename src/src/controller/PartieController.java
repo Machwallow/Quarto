@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -22,16 +23,14 @@ public class PartieController {
     }
 
     private void setupButtonSplit(){
-       /* buttonSplit.setOnMouseClicked(event -> {
-            Stage stage = Main.stage1;
-            Services.setupFenetre(Services.WIDTH_SETUP, Services.HEIGHT_SETUP, stage);
+        buttonSplit.setOnMouseClicked(event -> {
             try {
-                AnchorPane pane = FXMLLoader.load(getClass().getResource("../vue/setupLocal.fxml"), Services.getBundle());
-                mainPane.getChildren().setAll(pane);
+                shapePickerController.setIA(false);
+                mainPane.getChildren().setAll((AnchorPane) FXMLLoader.load(getClass().getResource("../view/shapePicker.fxml"), ViewServices.getBundle()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });*/
+        });
     }
 
     private void setupButtonIA(){

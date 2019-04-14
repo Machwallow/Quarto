@@ -1,8 +1,8 @@
 package controller;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -10,20 +10,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.Forme;
+import view.ViewServices;
 
 import java.util.ArrayList;
 
 public class shapePickerController {
-
-    public TableView<Joueur> tableView;
-    public TableColumn<Joueur, String> nameColumn;
-    public TableColumn<Joueur, ImageView> imageColumn;
-    public TableColumn<Joueur, Button> pickColumn;
+    public final static int WIDTH_TOKEN = 55, HEIGHT_TOKEN = 36;
+    private static boolean ia;
+    public TableView<Forme> tableView;
+    public TableColumn<Forme, ImageView> imageColumn;
+    public TableColumn<Forme, Button> pickColumn;
     public Button buttonBack;
     public AnchorPane mainPane;
-    public static ArrayList<Joueur> joueurs;
-    private static int playerToPick;
-    private static boolean ia;
+    public static ArrayList<Forme> formes;
 
     @FXML
     public void initialize() {
@@ -32,12 +32,18 @@ public class shapePickerController {
     }
 
     private void setupButtonBack() {
-        Services.setCloseWindow(buttonBack);
+        buttonBack.setOnMouseClicked(event -> {
+            try {
+                mainPane.getChildren().setAll((AnchorPane)FXMLLoader.load(getClass().getResource("../view/partie.fxml"), ViewServices.getBundle()));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     private void tableFill() {
-        joueurs = Services.getAllJoueurs();
-        tableView.getColumns().setAll(nameColumn, imageColumn, pickColumn);
+        formes = Forme.getAllFormes();
+        tableView.getColumns().setAll(imageColumn, pickColumn);
         tableView.setEditable(false);
 
         //prevents the user from moving the columns around
@@ -48,42 +54,35 @@ public class shapePickerController {
                 change.next();
                 if (change.wasReplaced() && !suspended) {
                     this.suspended = true;
-                    tableView.getColumns().setAll(nameColumn, imageColumn, pickColumn);
+                    tableView.getColumns().setAll(imageColumn, pickColumn);
                     this.suspended = false;
                 }
             }
         });
 
-        nameColumn.setCellValueFactory(param -> {
-            final Joueur joueur = param.getValue();
-            return new SimpleStringProperty(joueur.getNom());
-        });
         imageColumn.setCellValueFactory(param -> {
-            Joueur joueur = param.getValue();
-            return new SimpleObjectProperty<>(new ImageView(new Image(joueur.getImg(), Services.WIDTH_TOKEN, Services.HEIGHT_TOKEN, true, true)));
+            Forme forme = param.getValue();
+            return new SimpleObjectProperty<>(new ImageView(new Image(forme.getImgPath(), WIDTH_TOKEN, HEIGHT_TOKEN, true, true)));
 
         });
-        pickColumn.setCellFactory(ActionButtonTableCell.forTableColumn(Services.getBundle().getString("pick"), (Joueur j) -> {
-            System.out.println(j);
-            System.out.println(playerToPick);
+        pickColumn.setCellFactory(ActionButtonTableCell.forTableColumn(ViewServices.getBundle().getString("pick"), (Forme f) -> {
+            System.out.println(f);
             if (ia)
-                SetupLocalIAControlleur.setPlayer(playerToPick, j);
+                PartieGrilleController.setIa(true);
             else
-                SetupLocalControlleur.setPlayer(playerToPick, j);
+                PartieGrilleController.setIa(false);
+            PartieGrilleController.setForme(f);
 
             Stage stage = (Stage) mainPane.getScene().getWindow();
             stage.close();
-            return j;
+            return f;
         }));
 
-        tableView.getItems().setAll(joueurs);
+        tableView.getItems().setAll(formes);
         tableView.setId("my-table");
     }
 
-    public static void setPlayerToPick(int playerNumber){
-        playerToPick = playerNumber;
-    }
     public static void setIA(boolean ia){
-        joueursPickerController.ia = ia;
+        shapePickerController.ia = ia;
     }
 }
