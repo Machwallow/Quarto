@@ -12,25 +12,25 @@ public class AccueilController {
     public Button buttonRules;
     public Button buttonQuit;
     public AnchorPane mainPane;
-    public Button buttonLocal;
     public Button buttonLanguage;
+    public Button buttonPlay;
 
     @FXML
     private void initialize() {
+        setupButtonPlay();
         setupButtonRules();
         setupButtonLanguage();
         setupButtonQuit();
     }
 
-    private void setupButtonLocal(){
-        /*buttonLocal.setOnAction(event ->{
+    private void setupButtonPlay(){
+        buttonPlay.setOnAction(event ->{
             try {
-                AnchorPane pane = FXMLLoader.load(getClass().getResource("../vue/partieLocal.fxml"), Services.getBundle());
-                mainPane.getChildren().setAll(pane);
+                mainPane.getChildren().setAll((AnchorPane)FXMLLoader.load(getClass().getResource("../view/partieLocal.fxml"), ViewServices.getBundle()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        });*/
+        });
     }
 
     private void setupButtonRules() {
