@@ -43,13 +43,15 @@ public class Reserve {
         return text;
     }
 
-    public Pion useReservePion(int n){
-        Pion toUse=reservePions.get(n);
-        reservePions.remove(n);
+    public Pion useReservePion(Pion p){
+        Pion toUse=reservePions.get(reservePions.indexOf(p));
+        reservePions.remove(p);
         return toUse;
     }
-    
-    public int indexOf(Pion p){
+
+
+
+    private int indexOf(Pion p){
         return reservePions.indexOf(p);
     }
 
