@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import model.Forme;
 import view.ViewServices;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class shapePickerController {
@@ -62,8 +63,14 @@ public class shapePickerController {
 
         imageColumn.setCellValueFactory(param -> {
             Forme forme = param.getValue();
-            return new SimpleObjectProperty<>(new ImageView(new Image(forme.getImgPath(), WIDTH_TOKEN, HEIGHT_TOKEN, true, true)));
-
+            File tempFile = new File(forme.getImgPath());
+            Image img = null;
+            try{
+               img = new Image(tempFile.toURI().toURL().toExternalForm(), WIDTH_TOKEN, HEIGHT_TOKEN, true, true);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return new SimpleObjectProperty<>(new ImageView(img));
         });
         pickColumn.setCellFactory(ActionButtonTableCell.forTableColumn(ViewServices.getBundle().getString("pick"), (Forme f) -> {
             System.out.println(f);
@@ -79,7 +86,6 @@ public class shapePickerController {
         }));
 
         tableView.getItems().setAll(formes);
-        tableView.setId("my-table");
     }
 
     public static void setIA(boolean ia){
