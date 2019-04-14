@@ -68,9 +68,4 @@ public class Pion {
     public String toString(){
         return imageName;
     }
-
-    public static void main(String[] args){
-        Pion p1=new Pion(true,true,true,false);
-        System.out.println(p1.getImageName());
-    }
 }

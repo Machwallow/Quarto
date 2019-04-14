@@ -49,12 +49,16 @@ public class Grille {
         return false;
     }
 
-    public boolean addPionAt(Pion p, int x, int y){
-        if(!grillePions[x][y].isPlein())
+    public int addPionAt(Pion p, int x, int y){
+        if(!grillePions[x][y].isPlein()){
             grillePions[x][y] = p;
+            if(checkVictory(NomForme.CARRE,x,y)){
+                return 2; //si on a ajouté un pion et que c'est gagné
+            }
+        }
         else
-            return false;
-        return true;
+            return -1; //si on a pas pu ajouté un pion
+        return 1; //si on a ajouté un pion
     }
 
     public String toStringAt(int x, int y){
@@ -174,6 +178,7 @@ public class Grille {
         return(temp1||temp2||temp3);
     }
 
+    //checkIfMoveCanWin retourne l'index n du pion gagnant dans reserve, a placer dans grille aux coord x,y si n!=-1
     public int[] checkIfMoveCanWin(NomForme nf){
         Grille grilleIA=this;
         ArrayList<Pion> reserveIA=Reserve.getInstance().getReservePions();
