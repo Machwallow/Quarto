@@ -29,8 +29,8 @@ public class Grille {
         return grillePions[x][y];
     }
 
-    /* formeVic = 1 -> Ligne
-       formeVic = 2 -> Colonne
+    /* formeVic = 1 -> Colonne
+       formeVic = 2 -> Ligne
        formeVic = 3 -> Diag
        formeVic = 4 -> Carré
      */
@@ -86,7 +86,10 @@ public class Grille {
         for(int i=0;i<4;i++){
             txt+="|";
             for(int j=0;j<4;j++){
-                txt+=grillePions[j][i].getImageName()+"|";
+                if(grillePions[j][i].isPlein())
+                    txt+=grillePions[j][i].getImageName().substring(0,4)+"|";
+                else
+                    txt+=grillePions[j][i].getImageName()+"|";
             }
             txt+="\n\n";
         }
@@ -95,7 +98,7 @@ public class Grille {
 
     private boolean testPions(Pion p1,Pion p2,Pion p3,Pion p4){
 
-        if(p1.isPlein() || p2.isPlein() || p3.isPlein() || p4.isPlein())
+        if(!p1.isPlein() || !p2.isPlein() || !p3.isPlein() || !p4.isPlein())
             return false;
 
         if(p1.isBleu() == p2.isBleu() && p2.isBleu() == p3.isBleu() && p3.isBleu() == p4.isBleu())
