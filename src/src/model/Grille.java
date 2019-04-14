@@ -16,8 +16,8 @@ public class Grille {
     }
 
     public void fillGrille(){
-        for(int i=0;i<3;i++)
-            for(int j=0;j<3;j++)
+        for(int i=0;i<4;i++)
+            for(int j=0;j<4;j++)
                 grillePions[i][j] = new Pion();
     }
 
@@ -43,13 +43,13 @@ public class Grille {
                 for (Pion pTemp : grillePions[x]) {
                     pionToTest.add(pTemp);
                 }
-                return testPions(pionToTest.get(1), pionToTest.get(2), pionToTest.get(3), pionToTest.get(4));
+                return testPions(pionToTest.get(0), pionToTest.get(1), pionToTest.get(2), pionToTest.get(3));
             }
             case 2: {
                 for (int i = 0; i < 4; i++) {
                     pionToTest.add(grillePions[i][y]);
                 }
-                return testPions(pionToTest.get(1), pionToTest.get(2), pionToTest.get(3), pionToTest.get(4));
+                return testPions(pionToTest.get(0), pionToTest.get(1), pionToTest.get(2), pionToTest.get(3));
             }
             case 3: {
                 if (x == y)
@@ -68,11 +68,29 @@ public class Grille {
     }
 
     public boolean addPionAt(Pion p, int x, int y){
-        if(grillePions[x][y] == null)
+        if(!grillePions[x][y].isPlein())
             grillePions[x][y] = p;
         else
             return false;
         return true;
+    }
+
+    public String toStringAt(int x, int y){
+        String text="";
+        text="Pion en coordonnes ("+x+", "+y+") : "+grillePions[x][y].getImageName();
+        return text;
+    }
+
+    public String toString(){
+        String txt="";
+        for(int i=0;i<4;i++){
+            txt+="|";
+            for(int j=0;j<4;j++){
+                txt+=grillePions[j][i].getImageName()+"|";
+            }
+            txt+="\n\n";
+        }
+        return txt;
     }
 
     private boolean testPions(Pion p1,Pion p2,Pion p3,Pion p4){
