@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Grille {
     private static Grille ourInstance = new Grille();
     private Pion[][] grillePions;
+    private ArrayList<Pion> pionToTest = new ArrayList<>();
+
 
     public static Grille getInstance() {
         return ourInstance;
@@ -35,32 +37,18 @@ public class Grille {
        formeVic = 4 -> Carré
      */
     //TODO : debug this function, check how to handle empty cases
-    public boolean checkVictory(int formeVic, int x, int y){
-        ArrayList<Pion> pionToTest = new ArrayList<Pion>();
+    public boolean checkVictory(NomForme nomForme, int x, int y){
 
-        switch(formeVic) {
-            case 1: {
-                for (Pion pTemp : grillePions[x]) {
-                    pionToTest.add(pTemp);
-                }
-                return testPions(pionToTest.get(0), pionToTest.get(1), pionToTest.get(2), pionToTest.get(3));
+        switch(nomForme) {
+            //ligne colonne diag
+            case LCD: {
+                return testLCD(x,y);
             }
-            case 2: {
-                for (int i = 0; i < 4; i++) {
-                    pionToTest.add(grillePions[i][y]);
-                }
-                return testPions(pionToTest.get(0), pionToTest.get(1), pionToTest.get(2), pionToTest.get(3));
-            }
-            case 3: {
-                if (x == y)
-                    return testPions(grillePions[0][0], grillePions[1][1], grillePions[2][2], grillePions[3][3]);
-                else if ((x == 3 && y == 0) || (x == 2 && y == 1) || (x == 1 && y == 2) || (x == 0 && y == 3))
-                    return testPions(grillePions[3][0], grillePions[2][1], grillePions[1][2], grillePions[0][3]);
-
-            }
-            //9 carrés possibles
-            case 4: {
+            case CARRE: {
                 return testCarre(x, y);
+            }
+            case T: {
+                return testT(x,y);
             }
         }
 
@@ -162,5 +150,32 @@ public class Grille {
                     (testPions(grillePions[x][y],grillePions[x-1][y+1],grillePions[x-1][y],grillePions[x][y+1]));
         }
         return false;
+    }
+
+    //test ligne colonne diagonale
+    private boolean testLCD(int x, int y){
+        boolean temp1;
+        boolean temp2;
+        boolean temp3 = false;
+
+        for (Pion pTemp : grillePions[x]) {
+            pionToTest.add(pTemp);
+        }
+        temp1 = testPions(pionToTest.get(0), pionToTest.get(1), pionToTest.get(2), pionToTest.get(3));
+        pionToTest.clear();
+
+        for (int i = 0; i < 4; i++) {
+            pionToTest.add(grillePions[i][y]);
+        }
+        temp2 = testPions(pionToTest.get(0), pionToTest.get(1), pionToTest.get(2), pionToTest.get(3));
+        pionToTest.clear();
+
+        if (x == y)
+            temp3 = testPions(grillePions[0][0], grillePions[1][1], grillePions[2][2], grillePions[3][3]);
+        else if ((x == 3 && y == 0) || (x == 2 && y == 1) || (x == 1 && y == 2) || (x == 0 && y == 3))
+            temp3 = testPions(grillePions[3][0], grillePions[2][1], grillePions[1][2], grillePions[0][3]);
+
+
+        return(temp1||temp2||temp3);
     }
 }
