@@ -26,7 +26,7 @@ public class AccueilController {
     private void setupButtonPlay(){
         buttonPlay.setOnAction(event ->{
             try {
-                mainPane.getChildren().setAll((AnchorPane)FXMLLoader.load(getClass().getResource("../view/partieLocal.fxml"), ViewServices.getBundle()));
+                mainPane.getChildren().setAll((AnchorPane)FXMLLoader.load(getClass().getResource("../view/partie.fxml"), ViewServices.getBundle()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
