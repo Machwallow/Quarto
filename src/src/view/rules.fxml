@@ -21,10 +21,8 @@
                 <RowConstraints maxHeight="95.0" minHeight="0.0" prefHeight="35.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label text="%rules" textAlignment="CENTER" GridPane.halignment="CENTER">
-                    <font>
-                        <Font size="24.0" />
-                    </font></Label>
+                <Label text="%rules" style="-fx-font-size: 24" textAlignment="CENTER" GridPane.halignment="CENTER">
+                    </Label>
                 <Label text="%rulesText" textAlignment="JUSTIFY" textOverrun="CLIP" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets left="20.0" right="20.0" />
