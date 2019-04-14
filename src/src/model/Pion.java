@@ -1,11 +1,11 @@
-package model;
-
+package src.model;
 
 public class Pion {
     private boolean bleu;
     private boolean carre;
     private boolean grand;
     private boolean troue;
+    private boolean plein = false;
     private String imageName;
 
     public Pion(boolean bleu, boolean carre, boolean grand, boolean troue){
@@ -14,6 +14,11 @@ public class Pion {
         this.grand=grand;
         this.troue=troue;
         this.imageName=setImageName();
+        this.plein=true;
+    }
+
+    //Use this when creating empty grid
+    public Pion(){
     }
 
     public boolean isBleu() {
@@ -31,6 +36,8 @@ public class Pion {
     public boolean isTroue() {
         return troue;
     }
+
+    public boolean isPlein() { return plein; }
 
     public String getImageName() {
         return imageName;
