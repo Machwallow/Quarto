@@ -103,7 +103,6 @@ public class Grille {
         if(x-1<0){
             // cas 2 puis cas 3 sur feuille de note
             if((y+1<4) && (y-1>-1)){
-                System.out.println(x + " " + y);
                 return ((testPions(grillePions[x][y],grillePions[x+1][y-1],grillePions[x+1][y],grillePions[x][y-1]))
                         ||
                         (testPions(grillePions[x][y],grillePions[x+1][y+1],grillePions[x][y+1],grillePions[x+1][y])));
@@ -184,15 +183,17 @@ public class Grille {
         ArrayList<Pion> reserveIA=Reserve.getInstance().getReservePions();
         int[] position={-1,-1,-1};
         for(int n=0;n<reserveIA.size();n++){
+            System.out.println("test avec piece index "+n);
             for(int i=0;i<4;i++){
                 for(int j=0;j<4;j++){
                     if(!grilleIA.grillePions[i][j].isPlein()){
                         grilleIA.grillePions[i][j]=reserveIA.get(n);
-                        System.out.println(i+" et "+j);
+                        System.out.println("test en ("+i+", "+j+")");
                         if(grilleIA.checkVictory(forme,i,j)){
                             position[0]=n;
                             position[1]=i;
                             position[2]=j;
+                            System.out.println("Victoire possible avec reserve index "+n+" en ("+i+", "+j+")");
                             return position;
                         }
                         grilleIA.grillePions[i][j]=new Pion();

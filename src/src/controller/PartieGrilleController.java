@@ -117,10 +117,10 @@ public class PartieGrilleController {
                 //TODO: Finir la gestion du coup proprement, y ajouter le traitement de l'image
 
                 if (jActuel == 0) {
-                    resultatCoup = g.addPionAt(r.useReservePion(r.useReservePion(pickedPiece)), indexColonne, indexLigne, forme);
+                    resultatCoup = g.addPionAt(r.useReservePion(pickedPiece), indexColonne, indexLigne, forme);
                     jActuel++;
                 } else {
-                    resultatCoup = g.addPionAt(r.useReservePion(r.useReservePion(pickedPiece)), indexColonne, indexLigne, forme);
+                    resultatCoup = g.addPionAt(r.useReservePion(pickedPiece), indexColonne, indexLigne, forme);
                     jActuel--;
                 }
 
