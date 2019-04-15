@@ -61,6 +61,7 @@ public class PartieGrilleController {
     }
 
     private void setupButtonEnd() {
+        //TODO: bouton quitter la partie
         buttonEnd.setOnAction(event -> {
             Stage stageNewWindow = new Stage();
             Stage currentStage = (Stage) mainPane.getScene().getWindow();
@@ -70,7 +71,7 @@ public class PartieGrilleController {
                 stageNewWindow.showAndWait();
                 System.out.println(confirm);
                 if (confirm) {
-                    AnchorPane pane = FXMLLoader.load(getClass().getResource("../vue/accueil.fxml"), ViewServices.getBundle());
+                    AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/accueil.fxml"), ViewServices.getBundle());
                     ViewServices.setupFenetre(ViewServices.WIDTH_BASE + 10, ViewServices.HEIGHT_BASE + 40, currentStage);
                     mainPane.getChildren().setAll(pane);
                     confirm = false;
