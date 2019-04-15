@@ -1,10 +1,195 @@
 package controller;
 
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import model.Forme;
+import model.Grille;
+import model.Pion;
+import model.Reserve;
+import view.ViewServices;
+
+import java.io.File;
+import java.io.IOException;
+
+
 
 public class PartieGrilleController {
+
+    public AnchorPane mainPane;
+    public Label labelScoreJ1;
+    public Label labelScoreJ2;
+    public BorderPane mainBorder;
+    public Button buttonEnd;
+    public Label title;
+    public GridPane mainGrid;
+    private static int difficuly = 0;
+    private int[] grille;
+    private int jActuel = 0;
+    private static boolean confirm = false;
+    private static boolean isPiecePicked = false;
+    private static Pion pickedPiece;
+    private static Reserve r;
+    private static Grille g;
+
+    private static final int GRIDSIZE = 4;
     private static boolean ia;
     private static Forme forme;
+
+
+    @FXML
+    private void initialize() {
+        g = new Grille();
+        r = Reserve.getInstance();
+        genererGrille();
+        if (ia){
+            //TODO: Remplir pour initialiser l'IA
+            labelScoreJ2.setText("Mr. Robot");
+            //ia = new IA(difficuly);
+        }
+        setupButtonEnd();
+    }
+
+    private void setupButtonEnd() {
+        buttonEnd.setOnAction(event -> {
+            Stage stageNewWindow = new Stage();
+            Stage currentStage = (Stage) mainPane.getScene().getWindow();
+            try {
+                AnchorPane root = FXMLLoader.load(getClass().getResource("../vue/popUpConfirm.fxml"), ViewServices.getBundle());
+                ViewServices.setupNewWindow(stageNewWindow, root, ViewServices.WIDTH_POP_UP, ViewServices.HEIGHT_POP_UP, ViewServices.getBundle().getString("closeConfirm"));
+                stageNewWindow.showAndWait();
+                System.out.println(confirm);
+                if (confirm) {
+                    AnchorPane pane = FXMLLoader.load(getClass().getResource("../vue/accueil.fxml"), ViewServices.getBundle());
+                    ViewServices.setupFenetre(ViewServices.WIDTH_BASE + 10, ViewServices.HEIGHT_BASE + 40, currentStage);
+                    mainPane.getChildren().setAll(pane);
+                    confirm = false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+    }
+
+    private void genererGrille() {
+        for (int i = 0; i < GRIDSIZE; i++)
+            for (int j = 0; j < GRIDSIZE; j++) {
+                addPane(i, j);
+            }
+    }
+
+    private void addPane(int indexLigne, int indexColonne) {
+        StackPane stackPane = new StackPane();
+        stackPane.setOnMouseClicked(e -> {
+            if (isPiecePicked) {
+                System.out.println(grille[indexColonne]);
+
+                //gestion Image
+                File tempFile = new File(pickedPiece.getImageName());
+                Image img = null;
+                try{
+                    img = new Image(tempFile.toURI().toURL().toExternalForm(), 75, 75, true, true);
+                }catch (Exception eImg){
+                    eImg.printStackTrace();
+                }
+                ImageView jetonJActuel = new ImageView(img);
+                jetonJActuel.setFitWidth(75);
+                jetonJActuel.setFitHeight(75);
+
+                StackPane coupPane = (StackPane) mainGrid.getChildren().get((indexLigne * GRIDSIZE) + 1 + indexColonne);
+                coupPane.getChildren().add(jetonJActuel);
+                StackPane.setAlignment(coupPane.getChildren().get(0), Pos.CENTER);
+
+                int resultatCoup;
+
+
+
+                if (jActuel == 0) {
+                    resultatCoup = g.addPionAt(r.useReservePion(r.indexOf(pickedPiece)), indexColonne, indexLigne, forme);
+                    jActuel++;
+                } else {
+                    resultatCoup = g.addPionAt(r.useReservePion(r.indexOf(pickedPiece)), indexColonne, indexLigne, forme);
+                    jActuel--;
+                }
+
+                System.out.println("rc = " + resultatCoup);
+                testResultatCoup(resultatCoup);
+/*
+
+                if (difficuly != 0 && resultatCoup ==0){
+                    int indexColonne2 = ia.choisirCoup(jeuActuel.getPartie(), -1);
+                    jetonJActuel = new ImageView(new Image(joueurs[jActuel].getImg()));
+                    jetonJActuel.setFitWidth(Services.WIDTH_TOKEN);
+                    jetonJActuel.setFitHeight(Services.HEIGHT_TOKEN);
+
+                    StackPane coupPane2 = (StackPane) mainGrid.getChildren().get(((grille[indexColonne2]) * nbColonnes) + 1 + indexColonne2);
+                    System.out.println(mainGrid.getChildren().indexOf(mainGrid.getChildren().get(((grille[indexColonne2]) * nbColonnes) + 1 + indexColonne2)));
+                    coupPane2.getChildren().add(jetonJActuel);
+                    StackPane.setAlignment(coupPane2.getChildren().get(0), Pos.CENTER);
+
+                    grille[indexColonne2]--;
+                    System.out.println(jActuel);
+                    System.out.println("IA JOUE");
+                    int resultatCoupIA = jeuActuel.getPartie().ajouterJeton(-1, indexColonne2) + 5;
+                    jActuel--;
+                    System.out.println("rc IA=" +  resultatCoupIA);
+                    testResultatCoup(resultatCoupIA);
+                }
+                */
+            }
+        });
+        mainGrid.add(stackPane, indexColonne, indexLigne);
+    }
+
+    private void popUpWinner(int joueur) {/*
+        Stage stageNewWindow = new Stage();
+        Stage currentStage = (Stage) mainPane.getScene().getWindow();
+        WinnerController.setWinner(joueur);
+        try {
+            AnchorPane root = FXMLLoader.load(getClass().getResource("../vue/winner.fxml"), Services.getBundle());
+            Services.setupNewWindow(stageNewWindow, root, Services.WIDTH_POP_UP, Services.HEIGHT_POP_UP, Services.getBundle().getString("weHaveAWinner"));
+            stageNewWindow.getScene().getStylesheets().add(getClass().getResource("../ressources/style.css").toExternalForm());
+            stageNewWindow.showAndWait();
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("../vue/accueil.fxml"), Services.getBundle());
+            Services.setupFenetre(Services.WIDTH_BASE+10, Services.HEIGHT_BASE+40, currentStage);
+            mainPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+    }
+
+    public static void setConfirm(boolean status){
+        confirm = status;
+    }
+
+    private void testResultatCoup(int resultatCoup){/*
+        int resultatPartie = 0;
+        switch (resultatCoup) {
+            case 1:
+                resultatPartie = jeuActuel.victoireJ1();
+                break;
+            case 2:
+                resultatPartie = -1;
+                break;
+            case 6:
+                resultatPartie = jeuActuel.victoireJ2();
+                break;
+            case 7:
+                resultatPartie = -1;
+                break;
+        }*/
+    }
 
     public static void setIa(boolean ia) {
         PartieGrilleController.ia = ia;
@@ -14,3 +199,4 @@ public class PartieGrilleController {
         PartieGrilleController.forme = forme;
     }
 }
+

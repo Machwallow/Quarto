@@ -14,6 +14,7 @@ import model.Forme;
 import view.ViewServices;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class shapePickerController {
@@ -79,9 +80,13 @@ public class shapePickerController {
             else
                 PartieGrilleController.setIa(false);
             PartieGrilleController.setForme(f);
-
             Stage stage = (Stage) mainPane.getScene().getWindow();
-            stage.close();
+            ViewServices.setupFenetre(ViewServices.WIDTH_GAME, ViewServices.HEIGHT_GAME, stage);
+            try {
+                mainPane.getChildren().setAll((AnchorPane)FXMLLoader.load(getClass().getResource("../view/partieGrille.fxml"), ViewServices.getBundle()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return f;
         }));
 

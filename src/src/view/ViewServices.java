@@ -15,6 +15,9 @@ import java.util.ResourceBundle;
 
 public class ViewServices {
     private static ResourceBundle bundle;
+    public final static int WIDTH_POP_UP = 300, HEIGHT_POP_UP = 150;
+    public final static int WIDTH_BASE = 300, HEIGHT_BASE = 300;
+    public final static int WIDTH_GAME = 1000, HEIGHT_GAME = 600;
 
     public static void setupBundle(){
         Locale.setDefault(Locale.FRANCE);

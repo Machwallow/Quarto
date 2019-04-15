@@ -3,63 +3,84 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PartieGrilleController">
+<AnchorPane fx:id="mainPane" prefHeight="600.0" prefWidth="1000.0" style="-fx-font-family: 'Trebuchet MS'" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PartieGrilleController">
     <children>
-        <BorderPane fx:id="mainBorder" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="691.0" prefWidth="1274.0">
+        <BorderPane fx:id="mainBorder" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="1000.0">
             <top>
-                <Label fx:id="title" text="Apow⁴!" BorderPane.alignment="CENTER">
+                <Label fx:id="title" style="-fx-font-size: 30; -fx-font-style: Italic" text="Poly Quarto" BorderPane.alignment="CENTER">
                     <BorderPane.margin>
                         <Insets top="25.0" />
                     </BorderPane.margin>
                 </Label>
             </top>
-            <bottom>
-                <GridPane fx:id="bottomMenu" BorderPane.alignment="CENTER">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <children>
-                        <Button fx:id="buttonEnd" mnemonicParsing="false" text="%back" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
-                            <GridPane.margin>
-                                <Insets right="100.0" />
-                            </GridPane.margin>
-                        </Button>
-                        <Button fx:id="buttonRollback" disable="true" mnemonicParsing="false" text="" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
-                            <GridPane.margin>
-                                <Insets left="100.0" />
-                            </GridPane.margin></Button>
-                    </children>
-                </GridPane>
-            </bottom>
             <left>
-                <Label fx:id="labelScoreJ1" text="Label" BorderPane.alignment="CENTER">
-                    <BorderPane.margin>
-                        <Insets left="25.0" />
-                    </BorderPane.margin>
-                    <font>
-                        <Font size="18.0" />
-                    </font></Label>
+            <GridPane alignment="CENTER" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets left="25.0" />
+               </BorderPane.margin>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                      <Label fx:id="labelScoreJ1" alignment="CENTER" contentDisplay="CENTER" style="-fx-font-size: 18" text="%playerOne" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  </Label>
+                      <Label fx:id="labelScoreJ2" style="-fx-font-size: 18" text="%playerTwo" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                  </Label>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+               </children>
+            </GridPane>
             </left>
-            <right>
-                <Label fx:id="labelScoreJ2" text="Label" BorderPane.alignment="CENTER">
-                    <BorderPane.margin>
-                        <Insets right="50.0" />
-                    </BorderPane.margin>
-                    <font>
-                        <Font size="18.0" />
-                    </font></Label>
-            </right>
+         <center>
+            <GridPane fx:id="mainGrid" gridLinesVisible="true" maxHeight="400.0" maxWidth="400.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+         </center>
+         <right>
+            <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+              </content>
+               <BorderPane.margin>
+                  <Insets right="20.0" />
+               </BorderPane.margin>
+            </ScrollPane>
+         </right>
+         <bottom>
+                        <Button fx:id="buttonEnd" disable="true" mnemonicParsing="false" text="%end" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="20.0" />
+               </BorderPane.margin>
+            </Button>
+         </bottom>
         </BorderPane>
     </children>
 </AnchorPane>
