@@ -21,7 +21,7 @@ public class ViewServices {
     public final static int WIDTH_POP_UP = 300, HEIGHT_POP_UP = 150;
     public final static int WIDTH_BASE = 300, HEIGHT_BASE = 300;
     public final static int WIDTH_GAME = 1000, HEIGHT_GAME = 600;
-    public final static int WIDTH_TOKEN = 55, HEIGHT_TOKEN = 36;
+    public final static int WIDTH_TOKEN = 75, HEIGHT_TOKEN = 75;
 
     public static void setupBundle(){
         Locale.setDefault(Locale.FRANCE);
@@ -62,7 +62,6 @@ public class ViewServices {
     public static void setupNewWindow(Stage stage, AnchorPane mainPane, int width, int height, String title){
         stage.setTitle(title);
         stage.setScene(new Scene(mainPane, width, height));
-        stage.getIcons().add(new Image("src/ressources/logo.png"));
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
     }

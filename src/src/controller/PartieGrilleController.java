@@ -1,7 +1,6 @@
 package controller;
 
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -28,8 +27,7 @@ import java.io.IOException;
 public class PartieGrilleController {
 
     public AnchorPane mainPane;
-    public Label labelScoreJ1;
-    public Label labelScoreJ2;
+    public Label labelScoreJ1, labelScoreJ2;
     public BorderPane mainBorder;
     public Button buttonEnd;
     public Label title;
@@ -38,8 +36,9 @@ public class PartieGrilleController {
     public TableView<Pion> tableView;
     public TableColumn<Pion, ImageView> imageColumn;
     public TableColumn<Pion, Button> pickColumn;
-    private int[] grille;
-    private int jActuel = 0;
+    public ImageView imgJ1, imgJ2;
+    public Label labelSelectingJ1, labelSelectingJ2;
+    private int jActuel = 1;
     private static boolean confirm = false;
     private static boolean isPiecePicked = false;
     private static Pion pickedPiece;
@@ -55,7 +54,10 @@ public class PartieGrilleController {
     private void initialize() {
         g = new Grille();
         r = Reserve.getInstance();
+        if (r.getReservePions().size() != 16)
+            r.refill();
         genererGrille();
+        labelSelectingJ2.setVisible(false);
         if (ia){
             //TODO: Remplir pour initialiser l'IA
             labelScoreJ2.setText("Mr. Robot");
@@ -99,7 +101,6 @@ public class PartieGrilleController {
         StackPane stackPane = new StackPane();
         stackPane.setOnMouseClicked(e -> {
             if (isPiecePicked) {
-                System.out.println(grille[indexColonne]);
 
                 //gestion Image
                 File tempFile = new File(pickedPiece.getImageName());
@@ -120,13 +121,21 @@ public class PartieGrilleController {
                 int resultatCoup;
 
                 //TODO: Finir la gestion du coup proprement, y ajouter le traitement de l'image
-                resultatCoup = g.addPionAt(r.useReservePion(pickedPiece), indexColonne, indexLigne, forme);
-                if (jActuel == 0)
+                resultatCoup = g.addPionAt(pickedPiece, indexColonne, indexLigne, forme);
+                isPiecePicked = false;
+                pickedPiece = null;
+                removeImage();
+                if (jActuel == 1) {
                     jActuel++;
-                 else
+                    labelSelectingJ2.setVisible(true);
+                }
+                 else {
                     jActuel--;
+                    labelSelectingJ1.setVisible(true);
+                }
 
-
+                if (r.getReservePions().size() == 0 && resultatCoup == 1)
+                    resultatCoup = 11;
                 System.out.println("rc = " + resultatCoup);
                 testResultatCoup(resultatCoup);
 /*
@@ -159,6 +168,8 @@ public class PartieGrilleController {
     }
 
     private void popUpWinner(String joueur) {
+        labelSelectingJ1.setVisible(false);
+        labelSelectingJ2.setVisible(false);
         Stage stageNewWindow = new Stage();
         Stage currentStage = (Stage) mainPane.getScene().getWindow();
         WinnerController.setWinner(joueur);
@@ -180,22 +191,24 @@ public class PartieGrilleController {
 
     private void testResultatCoup(int resultatCoup){
         //TODO: à remplir en fonction de la fonction metier
-        /*
-        int resultatPartie = 0;
+
         switch (resultatCoup) {
             case 1:
-                resultatPartie = jeuActuel.victoireJ1();
                 break;
             case 2:
-                resultatPartie = -1;
+                if (jActuel == 1)
+                    popUpWinner(ViewServices.getBundle().getString("playerTwo"));
+                else
+                    popUpWinner(ViewServices.getBundle().getString("playerOne"));
                 break;
-            case 6:
-                resultatPartie = jeuActuel.victoireJ2();
+            case 11:
+                try {
+                    mainPane.getChildren().setAll((AnchorPane)FXMLLoader.load(getClass().getResource("../view/partieGrille.fxml"), ViewServices.getBundle()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
-            case 7:
-                resultatPartie = -1;
-                break;
-        }*/
+        }
     }
 
     public static void setIa(boolean ia) {
@@ -216,9 +229,6 @@ public class PartieGrilleController {
         imageColumn.setCellValueFactory(param -> {
             Pion pion = param.getValue();
             File tempFile = new File(pion.getImageName());
-            System.out.println(pion.getImageName());
-            System.out.println(new File(".").getAbsoluteFile());
-            System.out.println(tempFile.exists());
             Image img = null;
             try{
                 img = new Image(tempFile.toURI().toURL().toExternalForm(), ViewServices.WIDTH_TOKEN, ViewServices.HEIGHT_TOKEN, true, true);
@@ -228,11 +238,44 @@ public class PartieGrilleController {
             return new SimpleObjectProperty<>(new ImageView(img));
         });
         pickColumn.setCellFactory(ActionButtonTableCell.forTableColumn(ViewServices.getBundle().getString("pick"), (Pion p) -> {
-            //TODO: Traitement du clique sur le bouton
+            if(!isPiecePicked) {
+                pickedPiece = r.useReservePion(p);
+                isPiecePicked = true;
+                setupSelectedPiece();
+                tableView.getItems().setAll(r.getReservePions());
+            }
             return p;
         }));
 
         tableView.getItems().setAll(r.getReservePions());
+    }
+
+    private void setupSelectedPiece() {
+        ImageView imgToSet;
+        Image imgTemp = null;
+        if(jActuel == 1)
+            imgToSet = imgJ2;
+
+        else
+            imgToSet = imgJ1;
+        try {
+            imgTemp = new Image(new File(pickedPiece.getImageName()).toURI().toURL().toExternalForm(), ViewServices.WIDTH_TOKEN, ViewServices.HEIGHT_TOKEN, true, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        labelSelectingJ1.setVisible(false);
+        labelSelectingJ2.setVisible(false);
+        imgToSet.setFitWidth(75);
+        imgToSet.setFitHeight(75);
+        imgToSet.setImage(imgTemp);
+    }
+
+    private void removeImage(){
+        if(jActuel == 1)
+            imgJ2.setImage(null);
+        else
+            imgJ1.setImage(null);
     }
 }
 

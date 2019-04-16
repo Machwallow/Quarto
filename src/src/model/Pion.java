@@ -44,7 +44,7 @@ public class Pion {
     }
 
     public String setImageName(){
-        String tmp="src/ressources/pions/";
+        String tmp="src/src/ressources/pions/";
         if(this.bleu)
             tmp+="b";
         else

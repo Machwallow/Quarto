@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -11,8 +13,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
 <AnchorPane fx:id="mainPane" prefHeight="600.0" prefWidth="1000.0" style="-fx-font-family: 'Trebuchet MS'" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PartieGrilleController">
     <children>
         <BorderPane fx:id="mainBorder" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="1000.0">
@@ -41,12 +41,12 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                      <Label fx:id="labelScoreJ1" alignment="CENTER" contentDisplay="CENTER" style="-fx-font-size: 18" text="%playerOne" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                  </Label>
-                      <Label fx:id="labelScoreJ2" style="-fx-font-size: 18" text="%playerTwo" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-                  </Label>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                   <Label fx:id="labelScoreJ1" style="-fx-font-size: 18" text="%playerOne" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP"/>
+                   <Label fx:id="labelSelectingJ1" style="-fx-font-size: 12" text="%selecting" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP"/>
+                   <Label fx:id="labelScoreJ2" style="-fx-font-size: 18" text="%playerTwo" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="TOP"/>
+                   <Label fx:id="labelSelectingJ2" style="-fx-font-size: 12" text="%selecting" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="TOP"/>
+                   <ImageView fx:id="imgJ1" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <ImageView fx:id="imgJ2" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
                </children>
             </GridPane>
             </left>
@@ -71,7 +71,7 @@
                 <content>
                     <AnchorPane minWidth="0.0" prefWidth="200.0">
                         <children>
-                            <TableView fx:id="tableView" prefHeight="4500.0" prefWidth="200.0">
+                            <TableView fx:id="tableView" prefHeight="494.0" prefWidth="200.0">
                                 <columns>
                                     <TableColumn fx:id="imageColumn" editable="false" prefWidth="120.0" resizable="false" sortable="false" style="-fx-alignment: CENTER" text="%image" />
                                     <TableColumn fx:id="pickColumn" editable="false" prefWidth="65.0" resizable="false" sortable="false" style="-fx-alignment: CENTER" text="%pick" />
