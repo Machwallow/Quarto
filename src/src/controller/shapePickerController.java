@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class shapePickerController {
-    public final static int WIDTH_TOKEN = 55, HEIGHT_TOKEN = 36;
     private static boolean ia;
     public TableView<Forme> tableView;
     public TableColumn<Forme, ImageView> imageColumn;
@@ -34,7 +33,7 @@ public class shapePickerController {
     }
 
     private void setupButtonBack() {
-        buttonBack.setOnMouseClicked(event -> {
+        buttonBack.setOnAction(event -> {
             try {
                 mainPane.getChildren().setAll((AnchorPane)FXMLLoader.load(getClass().getResource("../view/partie.fxml"), ViewServices.getBundle()));
             } catch (Exception ex) {
@@ -49,25 +48,14 @@ public class shapePickerController {
         tableView.setEditable(false);
 
         //prevents the user from moving the columns around
-        tableView.getColumns().addListener(new ListChangeListener() {
-            public boolean suspended;
-            @Override
-            public void onChanged(Change change) {
-                change.next();
-                if (change.wasReplaced() && !suspended) {
-                    this.suspended = true;
-                    tableView.getColumns().setAll(imageColumn, pickColumn);
-                    this.suspended = false;
-                }
-            }
-        });
+        ViewServices.preventMove(tableView, imageColumn, pickColumn);
 
         imageColumn.setCellValueFactory(param -> {
             Forme forme = param.getValue();
             File tempFile = new File(forme.getImgPath());
             Image img = null;
             try{
-               img = new Image(tempFile.toURI().toURL().toExternalForm(), WIDTH_TOKEN, HEIGHT_TOKEN, true, true);
+               img = new Image(tempFile.toURI().toURL().toExternalForm(), ViewServices.WIDTH_TOKEN, ViewServices.HEIGHT_TOKEN, true, true);
             }catch (Exception e){
                 e.printStackTrace();
             }

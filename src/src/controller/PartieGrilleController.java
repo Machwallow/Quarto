@@ -1,11 +1,14 @@
 package controller;
 
-
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -22,8 +25,6 @@ import view.ViewServices;
 import java.io.File;
 import java.io.IOException;
 
-
-
 public class PartieGrilleController {
 
     public AnchorPane mainPane;
@@ -34,6 +35,9 @@ public class PartieGrilleController {
     public Label title;
     public GridPane mainGrid;
     private static int difficuly = 0;
+    public TableView<Pion> tableView;
+    public TableColumn<Pion, ImageView> imageColumn;
+    public TableColumn<Pion, Button> pickColumn;
     private int[] grille;
     private int jActuel = 0;
     private static boolean confirm = false;
@@ -58,6 +62,7 @@ public class PartieGrilleController {
             //ia = new IA(difficuly);
         }
         setupButtonEnd();
+        tableFill();
     }
 
     private void setupButtonEnd() {
@@ -115,14 +120,12 @@ public class PartieGrilleController {
                 int resultatCoup;
 
                 //TODO: Finir la gestion du coup proprement, y ajouter le traitement de l'image
-
-                if (jActuel == 0) {
-                    resultatCoup = g.addPionAt(r.useReservePion(pickedPiece), indexColonne, indexLigne, forme);
+                resultatCoup = g.addPionAt(r.useReservePion(pickedPiece), indexColonne, indexLigne, forme);
+                if (jActuel == 0)
                     jActuel++;
-                } else {
-                    resultatCoup = g.addPionAt(r.useReservePion(pickedPiece), indexColonne, indexLigne, forme);
+                 else
                     jActuel--;
-                }
+
 
                 System.out.println("rc = " + resultatCoup);
                 testResultatCoup(resultatCoup);
@@ -201,6 +204,35 @@ public class PartieGrilleController {
 
     public static void setForme(Forme forme) {
         PartieGrilleController.forme = forme;
+    }
+
+    private void tableFill(){
+        tableView.getColumns().setAll(imageColumn, pickColumn);
+        tableView.setEditable(false);
+
+        //prevents the user from moving the columns around
+        ViewServices.preventMove(tableView, imageColumn, pickColumn);
+
+        imageColumn.setCellValueFactory(param -> {
+            Pion pion = param.getValue();
+            File tempFile = new File(pion.getImageName());
+            System.out.println(pion.getImageName());
+            System.out.println(new File(".").getAbsoluteFile());
+            System.out.println(tempFile.exists());
+            Image img = null;
+            try{
+                img = new Image(tempFile.toURI().toURL().toExternalForm(), ViewServices.WIDTH_TOKEN, ViewServices.HEIGHT_TOKEN, true, true);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return new SimpleObjectProperty<>(new ImageView(img));
+        });
+        pickColumn.setCellFactory(ActionButtonTableCell.forTableColumn(ViewServices.getBundle().getString("pick"), (Pion p) -> {
+            //TODO: Traitement du clique sur le bouton
+            return p;
+        }));
+
+        tableView.getItems().setAll(r.getReservePions());
     }
 }
 

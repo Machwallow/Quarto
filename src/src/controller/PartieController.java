@@ -23,7 +23,7 @@ public class PartieController {
     }
 
     private void setupButtonSplit(){
-        buttonSplit.setOnMouseClicked(event -> {
+        buttonSplit.setOnAction(event -> {
             try {
                 shapePickerController.setIA(false);
                 mainPane.getChildren().setAll((AnchorPane) FXMLLoader.load(getClass().getResource("../view/shapePicker.fxml"), ViewServices.getBundle()));
@@ -34,7 +34,7 @@ public class PartieController {
     }
 
     private void setupButtonIA(){
-        /*buttonIA.setOnMouseClicked(event -> {
+        /*buttonIA.setOnAction(event -> {
             Stage stage = Main.stage1;
             Services.setupFenetre(Services.WIDTH_SETUP, Services.HEIGHT_SETUP, stage);
             try {

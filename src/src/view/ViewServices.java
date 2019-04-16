@@ -1,9 +1,12 @@
 package view;
 
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -18,6 +21,7 @@ public class ViewServices {
     public final static int WIDTH_POP_UP = 300, HEIGHT_POP_UP = 150;
     public final static int WIDTH_BASE = 300, HEIGHT_BASE = 300;
     public final static int WIDTH_GAME = 1000, HEIGHT_GAME = 600;
+    public final static int WIDTH_TOKEN = 55, HEIGHT_TOKEN = 36;
 
     public static void setupBundle(){
         Locale.setDefault(Locale.FRANCE);
@@ -70,6 +74,21 @@ public class ViewServices {
                 mainPane.getChildren().setAll(pane);
             } catch (Exception ex) {
                 ex.printStackTrace();
+            }
+        });
+    }
+
+    public static void preventMove(TableView tv, TableColumn tImage, TableColumn tPick){
+        tv.getColumns().addListener(new ListChangeListener() {
+            public boolean suspended;
+            @Override
+            public void onChanged(Change change) {
+                change.next();
+                if (change.wasReplaced() && !suspended) {
+                    this.suspended = true;
+                    tv.getColumns().setAll(tImage, tPick);
+                    this.suspended = false;
+                }
             }
         });
     }

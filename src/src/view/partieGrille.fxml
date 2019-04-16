@@ -11,6 +11,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 <AnchorPane fx:id="mainPane" prefHeight="600.0" prefWidth="1000.0" style="-fx-font-family: 'Trebuchet MS'" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PartieGrilleController">
     <children>
         <BorderPane fx:id="mainBorder" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="1000.0">
@@ -66,16 +68,25 @@
          </center>
          <right>
             <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-              </content>
+                <content>
+                    <AnchorPane minWidth="0.0" prefWidth="200.0">
+                        <children>
+                            <TableView fx:id="tableView" prefHeight="4500.0" prefWidth="200.0">
+                                <columns>
+                                    <TableColumn fx:id="imageColumn" editable="false" prefWidth="120.0" resizable="false" sortable="false" style="-fx-alignment: CENTER" text="%image" />
+                                    <TableColumn fx:id="pickColumn" editable="false" prefWidth="65.0" resizable="false" sortable="false" style="-fx-alignment: CENTER" text="%pick" />
+                                </columns>
+                            </TableView>
+                        </children>
+                    </AnchorPane>
+                </content>
                <BorderPane.margin>
                   <Insets right="20.0" />
                </BorderPane.margin>
             </ScrollPane>
          </right>
          <bottom>
-                        <Button fx:id="buttonEnd" disable="true" mnemonicParsing="false" text="%end" BorderPane.alignment="CENTER">
+             <Button fx:id="buttonEnd" disable="true" mnemonicParsing="false" text="%end" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="20.0" />
                </BorderPane.margin>
